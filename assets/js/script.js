@@ -4,6 +4,7 @@ const headers = {
     "Authorization" : myUrl,
     "Content-Type": "application/json",
 }
+const productContainer =document.getElementById('productContainer');
 const myForm =document.getElementById('product-form');
 const productName =document.getElementById('productName');
 const productBrand = document.getElementById('productBrand');
@@ -24,7 +25,8 @@ class product {
     }
 };
 
-let product;
+let newProduct;
+
 
 document.addEventListener('load', init());
 
@@ -32,6 +34,8 @@ function init() {
     btnSave.setAttribute('disabled', 'true');
     readProducts();
 }
+
+
 
 async function readProducts() {
     try{
@@ -49,6 +53,7 @@ async function readProducts() {
         empty.innerText = `Errore nel recupero dei dati: ${error}`;
     }
 };
+
 
 const printProduct= () => {
     empty.innerText='';
@@ -80,10 +85,18 @@ const printProduct= () => {
 
 
         const btn2= document.createElement('button');
-        btn1.setAttribute('type', 'button');
-        btn1.textContent = 'Scopri di piu';
-        btn1.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
+        btn2.setAttribute('type', 'button');
+        btn2.textContent = 'Scopri di piu';
+        btn2.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
 
-        
+        card.appendChild(btn2);
+        card.appendChild(btn1);
+        cardBody.appendChild(cardDescription);
+        cardBody.appendChild(title);
+        card.appendChild(img);
+        card.appendChild(cardBody);
+        col.appendChild(card);
+        productContainer.appendChild(col);
     })
 };
+
