@@ -42,12 +42,12 @@ const readProducts = async () => {
             const cardDescription = document.createElement('p');
             cardDescription.innerText = product.description;
 
-            const btn1 = document.createElement('button');
-            btn1.setAttribute('type', 'button');
+
+            const btn1 = document.createElement('a');
+            btn1.setAttribute('href', `edit.html?_id=${product._id}`);
             btn1.textContent = 'Modifica';
             btn1.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
-
-
+            
             const btn2 = document.createElement('button');
             btn2.setAttribute('type', 'button');
             btn2.textContent = 'Scopri di piu';

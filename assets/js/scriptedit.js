@@ -1,22 +1,22 @@
 const api = 'https://striveschool-api.herokuapp.com/api/product/';
 const myUrl = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVhOWVmNTk3ZTI5ZjAwMTVjMmU2OWMiLCJpYXQiOjE3MzM5OTIxODEsImV4cCI6MTczNTIwMTc4MX0.QQRgxGrH9GlZ78fRXz_q6HAfzlO4n9VODTsUPrCzOKs";
 const headers = {
-    "Authorization" : myUrl,
+    "Authorization": myUrl,
     "Content-Type": "application/json",
-}
-const productContainer =document.getElementById('productContainer');
-const productForm =document.getElementById('productForm');
-const productName =document.getElementById('productName');
+};
+
+const productForm = document.getElementById('productForm');
+const productName = document.getElementById('productName');
 const productBrand = document.getElementById('productBrand');
 const productPrice = document.getElementById('productPrice');
 const productImg = document.getElementById('productImg');
 const productDescription = document.getElementById('productDescription');
 const btnSave = document.getElementById('btnSave');
-const btnReset = document.getElementById('btnReset');
 
 const productID = new URLSearchParams(window.location.search).get('_id');
 
-let editingProductId = null;
+
+let editingProductId = productID || null;
 
 
 const createProduct = async (payload) => {
@@ -29,12 +29,7 @@ const createProduct = async (payload) => {
 
         if (response.ok) {
             alert("Prodotto creato con successo!");
-
-            await readProducts();
-
-            productForm.reset();
-
-            window.location.href = "index.html";
+            window.location.href = "index.html"; 
         } else {
             alert("Errore durante la creazione del prodotto.");
         }
@@ -54,9 +49,7 @@ const updateProduct = async (productId, payload) => {
 
         if (response.ok) {
             alert("Prodotto aggiornato con successo!");
-            editingProductId = null;
-            btnSave.textContent = "Salva";
-            productForm.reset();
+            window.location.href = "index.html"; 
         } else {
             alert("Errore durante l'aggiornamento del prodotto!");
         }
@@ -74,12 +67,13 @@ const deleteProduct = async (productId) => {
         });
 
         if (response.ok) {
-            alert("Prodotto cancellato con successo!");
+            alert("Prodotto eliminato con successo!");
+            window.location.href = "index.html"; 
         } else {
-            alert("Errore durante la cancellazione del prodotto!");
+            alert("Errore durante l'eliminazione del prodotto.");
         }
     } catch (error) {
-        console.error("Errore durante la cancellazione del prodotto:", error);
+        console.error("Errore durante l'eliminazione del prodotto:", error);
     }
 };
 
@@ -108,46 +102,52 @@ productForm.addEventListener("submit", (event) => {
 });
 
 
-btnReset.addEventListener("click", () => {
-    editingProductId = null;
-    btnSave.textContent = "Salva";
-    productForm.reset();
-});
-
-
-const editProduct = (productId, product) => {
-    editingProductId = productId;
-    btnSave.textContent = "Aggiorna";
-
-    productName.value = product.name;
-    productBrand.value = product.brand;
-    productPrice.value = product.price;
-    productImg.value = product.imageUrl;
-    productDescription.value = product.description;
-};
-
-const loadProducts = async () => {
+const loadProduct = async () => {
+    if (!productID) return; 
     try {
-        const response = await fetch(api, { headers });
-        if (response.ok) {
-            const products = await response.json();
-            console.log(products);
+        const response = await fetch(`${api}${productID}`, {
+            method: "GET",
+            headers,
+        });
+
+        if (!response.ok) throw new Error("Errore durante il caricamento del prodotto");
+
+        const product = await response.json();
+
+     
+        productName.value = product.name;
+        productBrand.value = product.brand;
+        productPrice.value = product.price;
+        productImg.value = product.imageUrl;
+        productDescription.value = product.description;
 
 
-            products.forEach(product => {
-                console.log(`Prodotto: ${product.name}`);
-
-               
-                console.log(`Modifica: editProduct('${product._id}', ${JSON.stringify(product)})`);
-                console.log(`Cancella: deleteProduct('${product._id}')`);
-            });
-        } else {
-            alert("Errore durante il caricamento dei prodotti!");
-        }
+        createDeleteButton(productID);
     } catch (error) {
-        console.error("Errore durante il caricamento dei prodotti:", error);
+        console.error("Errore durante il caricamento del prodotto:", error);
     }
 };
 
 
-loadProducts();
+const createDeleteButton = (productId) => {
+    const form = document.getElementById('productForm');
+    let deleteButton = document.getElementById('btnDelete');
+
+    if (!deleteButton) {
+        deleteButton = document.createElement('button');
+        deleteButton.id = 'btnDelete';
+        deleteButton.textContent = 'Elimina';
+        deleteButton.classList.add('btn', 'btn-danger', 'mt-3');
+
+       
+        deleteButton.addEventListener('click', () => {
+            if (confirm("Sei sicuro di voler eliminare questo prodotto?")) {
+                deleteProduct(productId);
+            }
+        });
+
+        form.appendChild(deleteButton);
+    }
+};
+
+document.addEventListener("DOMContentLoaded", loadProduct);
