@@ -7,7 +7,7 @@ const headers = {
 const productContainer = document.getElementById('productContainer');
 
 document.addEventListener("DOMContentLoaded", () => {
-    readProducts(); // Carica i prodotti esistenti all'avvio
+    readProducts();
 });
 const readProducts = async () => {
     try {
@@ -30,7 +30,9 @@ const readProducts = async () => {
 
             const img = document.createElement('img');
             img.src = product.imageUrl;
-            img.classList.add('bd-placeholder-img', 'card-img-top');
+            img.classList.add('card-img-top', 'img-fluid');
+
+            
 
             const cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
@@ -47,14 +49,17 @@ const readProducts = async () => {
             btn1.setAttribute('href', `edit.html?_id=${product._id}`);
             btn1.textContent = 'Modifica';
             btn1.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
-            
+
             const btn2 = document.createElement('button');
             btn2.setAttribute('type', 'button');
             btn2.textContent = 'Scopri di piu';
             btn2.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
+            btn2.addEventListener('click', () => {
+                window.location.href = `details.html?_id=${product._id}`;
+            });
 
-         
-           
+
+
 
 
 
@@ -62,8 +67,8 @@ const readProducts = async () => {
             col.appendChild(card);
             card.appendChild(img);
             card.appendChild(cardBody);
-            cardBody.appendChild(title); 
-            cardBody.appendChild(cardDescription); 
+            cardBody.appendChild(title);
+            cardBody.appendChild(cardDescription);
             card.appendChild(btn1);
             card.appendChild(btn2);
         });
