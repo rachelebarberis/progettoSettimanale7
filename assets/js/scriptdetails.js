@@ -35,17 +35,15 @@ const loadProductDetails = async () => {
 
         const product = await response.json();
 
-      
+
         detailsContainer.innerHTML = `
-            <div class="card">
-                <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
+        <div clas="row">
+                <img src="${product.imageUrl}" class="img-fluid w-25 col-3" alt="${product.name}">
                 <div class="card-body">
                     <h1 class="card-title">${product.name}</h1>
                     <h4 class="text-muted">${product.price.toFixed(2)} €</h4>
                     <p class="card-text">${product.description}</p>
-                </div>
-            </div>
-        `;
+                </div> `;
     } catch (error) {
         console.error("Errore:", error);
         detailsContainer.innerHTML = '<p class="text-danger">Errore nel caricamento dei dettagli del prodotto.</p>';

@@ -30,7 +30,7 @@ const readProducts = async () => {
 
             const img = document.createElement('img');
             img.src = product.imageUrl;
-            img.classList.add('card-img-top', 'img-fluid');
+            img.classList.add('card-img-top', 'w-50', 'ps-5', 'pt-2');
 
             
 
