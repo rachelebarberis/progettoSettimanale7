@@ -25,11 +25,11 @@ const readProducts = async () => {
             const col = document.createElement('div');
             col.classList.add('col-sm-4', 'col-md-3', 'mb-4');
         
-            // Card
+       
             const card = document.createElement('div');
-            card.classList.add('card', 'h-100', 'shadow-sm', 'border-0', 'rounded');
+            card.classList.add('card', 'h-100', 'shadow-sm', 'border-0', 'rounded-0', 'pb-1');
         
-            // Immagine
+            
             const img = document.createElement('img');
             img.src = product.imageUrl;
             img.classList.add('card-img-top', 'p-3', 'rounded-top', 'mx-auto', 'd-block');
@@ -37,26 +37,24 @@ const readProducts = async () => {
             img.style.height = '150px';
             img.style.width = 'auto';
         
-            // Corpo della Card
+           
             const cardBody = document.createElement('div');
-            cardBody.classList.add('card-body', 'd-flex', 'flex-column', 'justify-content-between');
+            cardBody.classList.add('card-body', 'd-flex', 'flex-column');
         
-            // Titolo
             const title = document.createElement('h5');
-            title.classList.add('card-title', 'text-center', 'text-primary', 'fw-bold');
+            title.classList.add('card-title', 'text-center', 'text-primary');
             title.innerText = product.name;
         
-            // Descrizione
+          
             const cardDescription = document.createElement('p');
             cardDescription.classList.add('card-text', 'text-muted');
             cardDescription.innerText = product.description;
-        
-            // Prezzo
+      
             const price = document.createElement('p');
             price.classList.add('text-success', 'fw-bold', 'mb-1', 'text-center');
             price.innerText = `${product.price.toFixed(2)} €`;
         
-            // Pulsanti
+         
             const btn1 = document.createElement('a');
             btn1.setAttribute('href', `edit.html?_id=${product._id}`);
             btn1.textContent = 'Modifica';
@@ -83,6 +81,7 @@ const readProducts = async () => {
             card.appendChild(cardBody);
             cardBody.appendChild(title);
             cardBody.appendChild(cardDescription);
+            cardBody.appendChild(price);
             card.appendChild(btn1);
             card.appendChild(btn2);
         });
