@@ -34,16 +34,52 @@ const loadProductDetails = async () => {
         }
 
         const product = await response.json();
+        detailsContainer.innerHTML = "";
+        const card = document.createElement('div');
+        card.classList.add('card', 'h-100', 'mb-4', 'shadow-sm', 'border-white', 'mt-5');
 
+        const row = document.createElement('div');
+        row.classList.add('row', 'align-items-center', 'g-0');
 
-        detailsContainer.innerHTML = `
-        <div clas="row">
-                <img src="${product.imageUrl}" class="img-fluid w-25 col-3" alt="${product.name}">
-                <div class="card-body">
-                    <h1 class="card-title">${product.name}</h1>
-                    <h4 class="text-muted">${product.price.toFixed(2)} €</h4>
-                    <p class="card-text">${product.description}</p>
-                </div> `;
+        const imgCol = document.createElement('div');
+        imgCol.classList.add('col-3');
+
+        const img = document.createElement('img');
+        img.src = product.imageUrl;
+        img.alt = product.name;
+        img.classList.add('img-fluid', 'rounded', 'ps-5', 'my-4');
+        img.style.objectFit = 'cover';
+        img.style.height = '150px';
+
+        const bodyCol = document.createElement('div');
+        bodyCol.classList.add('col-9');
+
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('card-body', 'p-0');
+
+        const title = document.createElement('h4');
+        title.classList.add('card-title', 'text-center', 'text-primary');
+        title.textContent = product.name;
+
+        const price = document.createElement('h5');
+        price.classList.add('text-success', 'fw-bold', 'mb-1', 'text-center');
+        price.textContent = `${product.price.toFixed(2)} €`;
+
+        const description = document.createElement('p');
+        description.classList.add('card-text', 'text-muted');
+        description.textContent = product.description;
+
+     
+        cardBody.appendChild(title);
+        cardBody.appendChild(price);
+        cardBody.appendChild(description);
+        bodyCol.appendChild(cardBody);
+        imgCol.appendChild(img);
+        row.appendChild(imgCol);
+        row.appendChild(bodyCol);
+        card.appendChild(row);
+        detailsContainer.appendChild(card);
+       
     } catch (error) {
         console.error("Errore:", error);
         detailsContainer.innerHTML = '<p class="text-danger">Errore nel caricamento dei dettagli del prodotto.</p>';
