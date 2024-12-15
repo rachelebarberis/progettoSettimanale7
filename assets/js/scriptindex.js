@@ -23,40 +23,54 @@ const readProducts = async () => {
         productContainer.innerHTML = "";
         products.forEach((product) => {
             const col = document.createElement('div');
-            col.classList.add('col-sm-6,col-md-4,col-lg-4');
-
+            col.classList.add('col-sm-4', 'col-md-3', 'mb-4');
+        
+            // Card
             const card = document.createElement('div');
-            card.classList.add('card', 'mb-4', 'shadow-sm');
-
+            card.classList.add('card', 'h-100', 'shadow-sm', 'border-0', 'rounded');
+        
+            // Immagine
             const img = document.createElement('img');
             img.src = product.imageUrl;
-            img.classList.add('card-img-top', 'w-50', 'ps-5', 'pt-2');
-
-            
-
+            img.classList.add('card-img-top', 'p-3', 'rounded-top', 'mx-auto', 'd-block');
+            img.style.objectFit = 'cover';
+            img.style.height = '150px';
+            img.style.width = 'auto';
+        
+            // Corpo della Card
             const cardBody = document.createElement('div');
-            cardBody.classList.add('card-body');
-
-            const title = document.createElement('h4');
-            title.classList.add('card-title');
+            cardBody.classList.add('card-body', 'd-flex', 'flex-column', 'justify-content-between');
+        
+            // Titolo
+            const title = document.createElement('h5');
+            title.classList.add('card-title', 'text-center', 'text-primary', 'fw-bold');
             title.innerText = product.name;
-
+        
+            // Descrizione
             const cardDescription = document.createElement('p');
+            cardDescription.classList.add('card-text', 'text-muted');
             cardDescription.innerText = product.description;
-
-
+        
+            // Prezzo
+            const price = document.createElement('p');
+            price.classList.add('text-success', 'fw-bold', 'mb-1', 'text-center');
+            price.innerText = `${product.price.toFixed(2)} €`;
+        
+            // Pulsanti
             const btn1 = document.createElement('a');
             btn1.setAttribute('href', `edit.html?_id=${product._id}`);
             btn1.textContent = 'Modifica';
-            btn1.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
-
+            btn1.classList.add('btn', 'btn-primary', 'mx-5', 'btn-sm');
+        
             const btn2 = document.createElement('button');
             btn2.setAttribute('type', 'button');
-            btn2.textContent = 'Scopri di piu';
-            btn2.classList.add('btn', 'btn-sm', 'btn-outline-secondary');
+            btn2.textContent = 'Scopri di più';
+            btn2.classList.add('btn', 'btn-secondary', 'mx-5', 'btn-sm', 'mt-2');
             btn2.addEventListener('click', () => {
                 window.location.href = `details.html?_id=${product._id}`;
             });
+        
+           
 
 
 
